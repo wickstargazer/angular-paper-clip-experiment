@@ -1,7 +1,7 @@
 /*!
  * Lazy Load - JavaScript plugin for lazy loading images
  *
- * Copyright (c) 2007-2019 Mika Tuupola
+ * Copyright 2020 Wickstargazer, adapted from Mika Tuupola
  *
  * Licensed under the MIT license:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -112,12 +112,12 @@
               self.observer.unobserve(entry.target);
               let srcset = entry.target.getAttribute(self.settings.srcset);
               if ("picture" === entry.target.tagName.toLowerCase()) {
-                const img = entry.getElementsByTagName("img")[0];
+                const img = entry.target.getElementsByTagName("img")[0];
                 let src = img.target.getAttribute(self.settings.src);
                 if (src) {
                   img.src = src;
                 }
-                const sources = entry.getElementsByTagName("source");
+                const sources = entry.target.getElementsByTagName("source");
                 sources.forEach((source) => {
                   let srcset = source.target.getAttribute(self.settings.srcset);
                   if (srcset) {
