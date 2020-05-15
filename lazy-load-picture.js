@@ -112,12 +112,12 @@
               self.observer.unobserve(entry.target);
               let srcset = entry.target.getAttribute(self.settings.srcset);
               if ("picture" === entry.target.tagName.toLowerCase()) {
-                const img = entry.getElementsByTagName("img")[0];
+                const img = entry.target.getElementsByTagName("img")[0];
                 let src = img.target.getAttribute(self.settings.src);
                 if (src) {
                   img.src = src;
                 }
-                const sources = entry.getElementsByTagName("source");
+                const sources = entry.target.getElementsByTagName("source");
                 sources.forEach((source) => {
                   let srcset = source.target.getAttribute(self.settings.srcset);
                   if (srcset) {
