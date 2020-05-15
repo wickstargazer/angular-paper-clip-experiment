@@ -1,0 +1,26 @@
+{
+  "name": "scully-plugin-delay-angular",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@scullyio/scully": "latest"
+  },
+  "maintainers": [
+    "Wickstargazer <wickyorama@gmail.com> (https://wickstargazer.com)"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wickstargazer/angular-paperclip-experiment"
+  },
+  "keywords": [
+    "angular",
+    "scully",
+    "seo",
+    "paper-clip-experiment"
+  ],
+  "contributors": [
+    "Wickstargazer <wickyorama@gmail.com> (https://wickstargazer.com)"
+  ],
+  "author": "Wickstargazer",
+  "license": "MIT",
+  "credi"
+}
