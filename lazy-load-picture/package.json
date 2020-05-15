@@ -1,0 +1,20 @@
+{
+    "name": "lazyload-picture",
+    "version": "0.0.1",
+    "description": "Vanilla JavaScript plugin for lazyloading picture tags",
+    "main": "lazyload.js",
+    "repository": "https://github.com/wickyorama/angular-paperclip-experiment.git",
+    "author": "Wickstargazer <wickyorama@gmail.com> Adapted from Mika Tuupola <tuupola@appelsiini.net>",
+    "license": "MIT",
+    "keywords": [
+      "lazyload"
+    ],
+    "files": [
+      "lazy-load-picture.js",
+      "lazy-load-picture.min.js"
+    ],
+    "devDependencies": {
+      "jshint": "^2.9.5",
+      "uglify-es": "^3.0.28"
+    }
+  }
