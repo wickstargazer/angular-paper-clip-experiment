@@ -7,7 +7,7 @@ const escapeRegExp = (string): string => {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 };
 
-const delayAngularPlugin = async (html) => {
+const delayAngularPlugin = async (html, route) => {
   const tsConfigPath = 'tsconfig.json';
   const tsConfig = JSON.parse(readFileSync(tsConfigPath, { encoding: 'utf8' }).toString());
 
@@ -53,27 +53,48 @@ Please run 'ng build' with the '--stats-json' flag`;
   })];
   let appendScript = `
   <script>
+      function appendModuleScript(entry) {
+        var s = document.createElement("script");
+        s.setAttribute("type", "module");
+        s.src = entry;
+        s.setAttribute("defer", "");
+        s.onload = function () {
+          console.log('script is loaded!')
+         };
+        document.body.appendChild(s);
+      }
+      function appendNoModuleScript(entry) {
+        var s = document.createElement("script");
+        s.setAttribute("nomodule", "");
+        s.src = entry;
+        s.setAttribute("defer", "");
+        s.onload = function () {
+          console.log('script is loaded!')
+         };
+        document.body.appendChild(s);
+      }
       window.addEventListener('load', function(event) {
           setTimeout( function() {
             var pattes2015 = new RegExp("-es2015");
             var pattes5 = new RegExp("-es5");
+            var moduleScripts = [];
+            var noModuleScripts = []'
             `
             
   assetsList.forEach(entry => {
     const regex = new RegExp(`<script( charset="?utf-8"?)? src="?${escapeRegExp(entry)}"?( type="?module"?)?( nomodule(="")?)?( defer(="")?)?><\/script>`, 'gmi');
     appendScript += `
-                    var s = document.createElement("script");
                     if(pattes2015.test('${entry}')) {
-                     s.setAttribute("type", "module");
+                      moduleScripts.push("${entry}");
                     } else if(pattes5.test('${entry}')) {
-                     s.setAttribute("nomodule", "");
-                     s.setAttribute("defer", "");
+                      noModuleScripts.push("${entry}");
                     }
-                    s.src = "${entry}";
-                    s.onload = function () {
-                     console.log('script is loaded!')
-                    };
-                    document.body.appendChild(s);
+                    moduleScripts.forEach(entry => {
+                      appendModuleScript(entry);
+                    });
+                    noModuleScripts.forEach(entry => {
+                      appendNoModuleScript(entry);
+                    });
                 `
     html = html.replace(regex, appendScript);
   });

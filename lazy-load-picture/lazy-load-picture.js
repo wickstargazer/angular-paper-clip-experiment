@@ -6,10 +6,7 @@
  * Licensed under the MIT license:
  *   http://www.opensource.org/licenses/mit-license.php
  *
- * Project home:
- *   https://appelsiini.net/projects/lazyload
- *
- * Version: 2.0.0-rc.2
+ * Version: 0.0.1-rc.2
  *
  */
 
@@ -112,16 +109,16 @@
               self.observer.unobserve(entry.target);
               let srcset = entry.target.getAttribute(self.settings.srcset);
               if ("picture" === entry.target.tagName.toLowerCase()) {
-                const img = entry.target.getElementsByTagName("img")[0];
-                let src = img.target.getAttribute(self.settings.src);
+                const img = entry.getElementsByTagName("img")[0];
+                let src = img.getAttribute(self.settings.src);
                 if (src) {
                   img.src = src;
                 }
                 const sources = entry.target.getElementsByTagName("source");
                 sources.forEach((source) => {
-                  let srcset = source.target.getAttribute(self.settings.srcset);
+                  let srcset = source.getAttribute(self.settings.srcset);
                   if (srcset) {
-                    source.target.srcset = srcset;
+                    source.srcset = srcset;
                   }
                 });
               } else {
