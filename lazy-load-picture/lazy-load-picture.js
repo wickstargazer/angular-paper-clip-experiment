@@ -152,18 +152,24 @@
         let self = this;
         Array.prototype.forEach.call(this.images, function (image) {
           if ("picture" === image.tagName.toLowerCase()) {
-            const img = entry.getElementsByTagName("img")[0];
-            let src = img.target.getAttribute(self.settings.src);
+            const img = image.getElementsByTagName("img")[0];
+            let src = img.getAttribute(self.settings.src);
             if (src) {
               img.src = src;
             }
-            const sources = entry.getElementsByTagName("source");
-            sources.forEach((source) => {
-              let srcset = source.target.getAttribute(self.settings.srcset);
-              if (srcset) {
-                source.target.srcset = srcset;
-              }
-            });
+            const srcsets = image.getAttribute(self.settings.srcset);
+            if (srcsets) {
+              const srcset = JSON.parse(srcsets);
+              srcset.forEach((srcset) => {
+                const source = document.createElement("source");
+                const type = Object.keys(srcset)[0];
+                if (typeof type === "string" || type instanceof String) {
+                  source.setAttribute("type", type);
+                }
+                source.setAttribute("srcset", srcset[type]);
+                image.prepend(source);
+              });
+            }
           } else {
             image.style.backgroundImage = "url('" + src + "')";
           }
