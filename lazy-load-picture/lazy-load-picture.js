@@ -107,20 +107,25 @@
           Array.prototype.forEach.call(entries, function (entry) {
             if (entry.isIntersecting) {
               self.observer.unobserve(entry.target);
-              let srcset = entry.target.getAttribute(self.settings.srcset);
               if ("picture" === entry.target.tagName.toLowerCase()) {
-                const img = entry.getElementsByTagName("img")[0];
+                const img = entry.target.getElementsByTagName("img")[0];
                 let src = img.getAttribute(self.settings.src);
                 if (src) {
                   img.src = src;
                 }
-                const sources = entry.target.getElementsByTagName("source");
-                sources.forEach((source) => {
-                  let srcset = source.getAttribute(self.settings.srcset);
-                  if (srcset) {
-                    source.srcset = srcset;
-                  }
-                });
+                const srcsets = entry.target.getAttribute(self.settings.srcset);
+                if (srcsets) {
+                  const srcset = JSON.parse(srcsets);
+                  srcset.forEach((srcset) => {
+                    const source = document.createElement("source");
+                    const type = Object.keys(srcset)[0];
+                    if (typeof type === "string" || type instanceof String) {
+                      source.setAttribute("type", type);
+                    }
+                    source.setAttribute("srcset", srcset[type]);
+                    entry.target.prepend(source);
+                  });
+                }
               } else {
                 entry.target.style.backgroundImage = "url(" + src + ")";
               }
